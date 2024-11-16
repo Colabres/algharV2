@@ -1,4 +1,4 @@
-# Specofocatopm Document
+# Specification Document
 
 
 This specification document defines the project for the exercise in the "Algorithms and Artificial Intelligence" course, part of the Bachelor's program in Computer Science (TKT) at the University of Helsinki.
