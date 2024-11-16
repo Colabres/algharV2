@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 import math
 
+#class to create a point
 class Point:
     def __init__(self,x,y):
         self.x = x
@@ -10,12 +11,14 @@ class Point:
 
     def __repr__(self):
         return f"Point({self.x}, {self.y})"
-    
+
+#class to make a triangle object of 3 points    
 class Triangle:
     def __init__(self,p1,p2,p3):
         self.points=[p1,p2,p3]
         self.edges = [(p1,p2), (p2,p3), (p3,p1)]
 
+    #using matrix det to identify if the given point inside the triangle.
     def circumcircle_contains(self,point):
         ax, ay = self.points[0].x, self.points[0].y
         bx, by = self.points[1].x, self.points[1].y
@@ -39,8 +42,10 @@ class Triangle:
     def __repr__(self):
         return f"Triangle({self.points[0]}, {self.points[1]}, {self.points[2]})"
 
+#bowyer_watson algoritm
 def bowyer_watson(points):
 
+    #geting min max coordinates for super triangle
     min_x = min(p.x for p in points)
     max_x = max(p.x for p in points)
     min_y = min(p.y for p in points)
@@ -51,12 +56,15 @@ def bowyer_watson(points):
 
     max_delta = max(delta_x,delta_y)
 
+    #make a super triangle based on max delta
     super_triangle = Triangle(Point(min_x - 10 * max_delta, min_y - max_delta),
                               Point(min_x + 10 * max_delta, min_y - max_delta),
                               Point(max_x, min_y + 10 * max_delta))
 
     triangles = [super_triangle]
 
+    #algoritm core.
+    # for evry point we check if the point is inside the existing triangles. if it is the triangle is a bad triangle and we make a new triangles. 
     for point in points:
         bad_triangles = []
         for triangle in triangles:
@@ -82,6 +90,7 @@ def bowyer_watson(points):
 
     return triangles
 
+#base setup for new dungeon
 room_count = 20         
 dungeonMap = np.zeros((50,80), dtype=int)
 points = []
@@ -91,6 +100,8 @@ dungeon_width = 80
 dungeon_height = 50
 fail = 0
 buff = 3
+
+#making sure that rooms dont overlap
 def isValidPos(x,y,width,height):
     global fail
     x_start = x - buff
@@ -107,6 +118,7 @@ def isValidPos(x,y,width,height):
                 return False
     return True
 
+#function to place room.
 def place_room():    
     room_width = random.randint(min_room_size, max_room_size)
     room_height = random.randint(min_room_size, max_room_size)
@@ -130,12 +142,15 @@ def place_room():
 
 placed_rooms = 0
 
+#placing rooms one by one making sure thay do not overlap and have a wide enought area in between
 while placed_rooms < room_count:
     if place_room():
         placed_rooms += 1
 triangles=bowyer_watson(points)
-print(triangles)
+#print(triangles)
+#using numpy to actually draw a visualisation of a new generated dungeon
 plt.imshow(dungeonMap, cmap='gray', vmin=0, vmax=2)
+
 for triangle in triangles:
     x_values = [triangle.points[0].x, triangle.points[1].x, triangle.points[2].x, triangle.points[0].x]
     y_values = [triangle.points[0].y, triangle.points[1].y, triangle.points[2].y, triangle.points[0].y]
