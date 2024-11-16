@@ -20,12 +20,12 @@ def testTriangle():
     triangle = Triangle(p1, p2, p3)
     
     # Check that the triangle has exactly 3 points
-    assert len(triangle.points) == 3, "Triangle should have exactly 3 points"
+    assert len(triangle.rooms) == 3, "Triangle should have exactly 3 points"
     
     # Check that the points in the triangle are correct
-    assert triangle.points[0] == p1, "First point should be p1"
-    assert triangle.points[1] == p2, "Second point should be p2"
-    assert triangle.points[2] == p3, "Third point should be p3"
+    assert triangle.rooms[0] == p1, "First point should be p1"
+    assert triangle.rooms[1] == p2, "Second point should be p2"
+    assert triangle.rooms[2] == p3, "Third point should be p3"
 
 def testEdges():
     p1 = Point(0, 0)

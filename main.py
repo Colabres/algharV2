@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import heapq 
 import math
 
 #class to create a point
@@ -12,17 +13,17 @@ class Point:
     def __repr__(self):
         return f"Point({self.x}, {self.y})"
 
-#class to make a triangle object of 3 points    
+#class to make a triangle object of 3 rooms    
 class Triangle:
     def __init__(self,p1,p2,p3):
-        self.points=[p1,p2,p3]
+        self.rooms=[p1,p2,p3]
         self.edges = [(p1,p2), (p2,p3), (p3,p1)]
 
-    #using matrix det to identify if the given point inside the triangle.
+    #using matrix det to identify if the given room inside the triangle.
     def circumcircle_contains(self,point):
-        ax, ay = self.points[0].x, self.points[0].y
-        bx, by = self.points[1].x, self.points[1].y
-        cx, cy = self.points[2].x, self.points[2].y
+        ax, ay = self.rooms[0].x, self.rooms[0].y
+        bx, by = self.rooms[1].x, self.rooms[1].y
+        cx, cy = self.rooms[2].x, self.rooms[2].y
         dx, dy = point.x, point.y
 
         a = ax - dx
@@ -40,8 +41,29 @@ class Triangle:
         return det > 0
     
     def __repr__(self):
-        return f"Triangle({self.points[0]}, {self.points[1]}, {self.points[2]})"
+        return f"Triangle({self.rooms[0]}, {self.rooms[1]}, {self.rooms[2]})"
 
+#class for node
+class Room:
+    def __init__(self,x,y):
+        self.name = f"{x},{y}"
+        self.x = x
+        self.y = y
+        self.neighbors = []
+        
+    def addNeighbor(self,neighbor):
+        if any(neighbor == n[0] for n in self.neighbors):
+            return
+        weight = abs(self.x-neighbor.x) + abs(self.y - neighbor.y)
+        self.neighbors.append((neighbor,weight))
+
+    def __repr__(self):
+        return f"Room {self.name}"
+    
+    def __lt__(self, other):        
+        return (self.x, self.y) < (other.x, other.y)
+
+        
 #bowyer_watson algoritm
 def bowyer_watson(points):
 
@@ -86,14 +108,43 @@ def bowyer_watson(points):
             new_triangle = Triangle(edge[0],edge[1],point)
             triangles.append(new_triangle)
 
-    triangles = [triangle for triangle in triangles if all(vert not in super_triangle.points for vert in triangle.points)]
+    triangles = [triangle for triangle in triangles if all(vert not in super_triangle.rooms for vert in triangle.rooms)]
 
     return triangles
+
+def mst(rooms):
+    new_graph = []
+    visited = set()
+    min_heap = []
+
+    def add_edge(room):
+        
+        visited.add(room)
+        for neighbor in room.neighbors:
+            if neighbor not in visited:
+                #print("hep")
+                print(neighbor[1],room,neighbor[0])
+                heapq.heappush(min_heap,(neighbor[1],room,neighbor[0]))
+        print("done")
+    add_edge(rooms[0])
+
+    while min_heap:
+        weight, from_room, to_room = heapq.heappop(min_heap)
+
+        if to_room in visited:
+            continue
+
+        new_graph.append((from_room,to_room,weight))
+        add_edge(to_room)
+    
+    return new_graph            
+
+    
 
 #base setup for new dungeon
 room_count = 20         
 dungeonMap = np.zeros((50,80), dtype=int)
-points = []
+rooms = []
 min_room_size = 5
 max_room_size = 9
 dungeon_width = 80
@@ -129,7 +180,7 @@ def place_room():
 
         
         if isValidPos(x, y, room_width, room_height):
-            points.append(Point(x,y))
+            rooms.append(Room(x,y))
             for i in range(y, y + room_height):
                 for j in range(x, x + room_width):
                     if i == y or i == y + room_height - 1 or j == x or j== x + room_width - 1:
@@ -146,13 +197,29 @@ placed_rooms = 0
 while placed_rooms < room_count:
     if place_room():
         placed_rooms += 1
-triangles=bowyer_watson(points)
+triangles=bowyer_watson(rooms)
 #print(triangles)
 #using numpy to actually draw a visualisation of a new generated dungeon
 plt.imshow(dungeonMap, cmap='gray', vmin=0, vmax=2)
 
 for triangle in triangles:
-    x_values = [triangle.points[0].x, triangle.points[1].x, triangle.points[2].x, triangle.points[0].x]
-    y_values = [triangle.points[0].y, triangle.points[1].y, triangle.points[2].y, triangle.points[0].y]
-    plt.plot(x_values, y_values, color='blue', linestyle='-', linewidth=1)
+    #print(triangle)
+    triangle.rooms[0].addNeighbor(triangle.rooms[1])
+    triangle.rooms[0].addNeighbor(triangle.rooms[2])
+    triangle.rooms[1].addNeighbor(triangle.rooms[0])
+    triangle.rooms[1].addNeighbor(triangle.rooms[2])
+    triangle.rooms[2].addNeighbor(triangle.rooms[0])
+    triangle.rooms[2].addNeighbor(triangle.rooms[1])
+    x_values = [triangle.rooms[0].x, triangle.rooms[1].x, triangle.rooms[2].x, triangle.rooms[0].x]
+    y_values = [triangle.rooms[0].y, triangle.rooms[1].y, triangle.rooms[2].y, triangle.rooms[0].y]
+    #plt.plot(x_values, y_values, color='blue', linestyle='-', linewidth=1)
+
+graph = mst(rooms)
+for room1, room2, _ in graph:
+    plt.plot([room1.x, room2.x], [room1.y, room2.y], 'blue', lw=1)
+print(graph)
+# for room in rooms:
+#     print(room)
+# print(rooms[0].neighbors)
+# print(len(rooms[0].neighbors))
 plt.show()
