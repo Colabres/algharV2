@@ -12,3 +12,5 @@ This is Procedurally Dungeon generating application developed for the Algorithms
 [week 2](./Doc/WeeklyReports/viikkoraportti_2.pdf)
 
 [week 3](./Doc/WeeklyReports/viikkoraportti_3.pdf)
+
+[week 4](./Doc/WeeklyReports/viikkoraportti_4.pdf)
