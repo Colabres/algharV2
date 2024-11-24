@@ -29,7 +29,8 @@ class Node:
     def __repr__(self):
         return f"Node ({self.x}, {self.y})"
 
-#class to make a triangle object of 3 rooms    
+#class to make a triangle object of 3 rooms
+# i use this class for bowyer_watson algoritm    
 class Triangle:
     def __init__(self,p1,p2,p3):
         self.rooms=[p1,p2,p3]
@@ -59,7 +60,9 @@ class Triangle:
     def __repr__(self):
         return f"Triangle({self.rooms[0]}, {self.rooms[1]}, {self.rooms[2]})"
 
-#class for room
+# class for room
+# this class and the node class i very related basicly thay just a point in the map but since i needed different 
+# fitures i didnt want to put it all to make over large single class
 class Room:
     def __init__(self,x,y):
         self.name = f"{x},{y}"
@@ -80,7 +83,9 @@ class Room:
         return (self.x, self.y) < (other.x, other.y)
 
         
-#bowyer_watson algoritm
+# bowyer_watson algoritm
+# This is one of the core algoritm of my project that uses matrix calculations 
+# to imply tecnic known as Delaunay triangulation to connect the rooms the best way.
 def bowyer_watson(points):
 
     #geting min max coordinates for super triangle
@@ -128,6 +133,7 @@ def bowyer_watson(points):
 
     return triangles
 
+# This is another core algoritm that takes a graph and removes the unnesesary edges keeping only the most eficient ones but making sure that evry room is reacheble.
 def mst(rooms):
     new_graph = []
     visited = set()
@@ -151,7 +157,9 @@ def mst(rooms):
     
     return new_graph            
 
-def a_star(graph,dungeonMap):    
+# A* algorithm is a path finder that i use to draw the actual coridors in the most efficient way connecting predeterment rooms.
+def a_star(graph,dungeonMap):
+    #helper function that creates new nodes surounding the current node and calculating a g cost that A* needs to function.    
     def get_neighbors(current):
         neighbors = []
         neighborOffset = [(-1,0),(1,0),(0,-1),(0,1)]
@@ -212,6 +220,7 @@ def a_star(graph,dungeonMap):
 
 
 #base setup for new dungeon
+#this is a base setup that is adjusteble if a biger or smaller dungeon is needed 
 room_count = 20         
 dungeonMap = np.zeros((50,80), dtype=int)
 rooms = []
@@ -300,5 +309,32 @@ for room1, room2, _ in graph:
 
 a_star(graph,dungeonMap)
 #using numpy to actually draw a visualisation of a new generated dungeon
-plt.imshow(dungeonMap, cmap='gray', vmin=0, vmax=3)
-plt.show()
+# plt.imshow(dungeonMap, cmap='gray', vmin=0, vmax=3)
+# plt.show()
+
+def visualize_dungeon(dungeon_map, rooms, graph):
+    plt.figure(figsize=(12, 8))
+
+    # Render dungeon tiles with a color map
+    cmap = {
+        0: 'white',  # Empty space
+        1: 'black',  # Walls
+        2: 'gray',   # Corridors
+        3: 'yellow'  # Room boundaries
+    }
+    dungeon_colors = np.vectorize(cmap.get)(dungeon_map)
+    plt.imshow(dungeon_colors, interpolation='nearest')
+
+    # Add connections between rooms
+    for room1, room2, weight in graph:
+        plt.plot([room1.x, room2.x], [room1.y, room2.y], 'blue', lw=1)
+
+    # Label rooms
+    for idx, room in enumerate(rooms):
+        plt.text(room.x, room.y, str(idx), color='red', fontsize=8, ha='center', va='center')
+
+    # Add title and legend
+    plt.title("Generated Dungeon with Room Connections")
+    plt.show()
+
+visualize_dungeon(dungeonMap, rooms, graph)
