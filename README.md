@@ -5,6 +5,8 @@ This is Procedurally Dungeon generating application developed for the Algorithms
 ## Documentation
 [Käyttöohje Document](./Doc/kayttoohjeet.md)
 [Specification Document](./Doc/specifications.md)
+[Test Report](./Doc/test_report.md)
+[Implementation Report](./Doc/implementation_report.md)
 
 
 ## Weekly Reports
