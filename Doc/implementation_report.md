@@ -60,6 +60,8 @@ Currently, the application works through the command line, but a graphical user 
 ### **Code Refactoring**
 The application contains some long and complex functions that could benefit from refactoring. Specifically, room placement and connection calculations could be divided into smaller, more manageable components.
 
+### **Acknowledgement**
+During this project, the documentation was created in collaboration with ChatGPT by OpenAI.
 ## **Sources**
 
 - Wikipedia: **A* Search Algorithm**

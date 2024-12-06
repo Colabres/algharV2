@@ -10,7 +10,7 @@ In this project, unit tests are used to validate the functionality of various cl
 
 A total of **23 unit tests** have been implemented to validate the functionality of the Dungeon generation system, including the algorithms and data structures related to the dungeon map and rooms. The coverage tool reports **100% test coverage**, ensuring that all code paths have been tested thoroughly.
 
-![Test Coverage](Doc/WeeklyReports/coverage_img.jpg)
+![Test Coverage](WeeklyReports/coverage_img.jpg)
 
 The tests cover all the key functionality of the system, including edge cases and exception handling. No functionality is left untested, ensuring the correctness and stability of the system.
 
