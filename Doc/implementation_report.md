@@ -64,8 +64,7 @@ The application contains some long and complex functions that could benefit from
 During this project, the documentation was created in collaboration with ChatGPT by OpenAI.
 ## **Sources**
 
-- Wikipedia: **A* Search Algorithm**
-- Wikipedia: **Delaunay Triangulation**
-- Wikipedia: **Minimum Spanning Tree (MST)**
-- Python Documentation: **NumPy**
-- Matplotlib Documentation
+- [Delaunay Triangulation (Wikipedia)](https://en.wikipedia.org/wiki/Delaunay_triangulation)
+- [Bowyer–Watson algorithm (Wikipedia)](https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm)
+- [Creating Simple Procedural Dungeon Generation (Tom Stephenson)](https://www.tomstephensondeveloper.co.uk/post/creating-simple-procedural-dungeon-generation)
+- [Procedurally Generated Dungeons(VAZGRIZ)](https://vazgriz.com/119/procedurally-generated-dungeons/)
