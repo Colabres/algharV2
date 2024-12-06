@@ -1,8 +1,8 @@
 import numpy as np
 import random
-from modules.visualization import visualize_dungeon
-from modules.core_algorithms import bowyer_watson, mst, a_star
-from modules.dungeon import initialize_dungeon
+from src.visualization import visualize_dungeon
+from src.core_algorithms import bowyer_watson, mst, a_star
+from src.dungeon import initialize_dungeon
 
 # class for room
 # this class and the node class i very related basicly thay just a point in the map but since i needed different 

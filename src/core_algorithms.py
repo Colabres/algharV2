@@ -153,7 +153,8 @@ def mst(points):
     new_graph = []
     visited = set()
     min_heap = []
-
+    if len(points) < 2:
+        return []
     def add_edge(point):        
         visited.add(point)
         for neighbor in point.neighbors:
@@ -174,6 +175,7 @@ def mst(points):
 
 # A* algorithm is a path finder that i use to draw the actual coridors in the most efficient way connecting predeterment rooms.
 def a_star(graph,dungeonMap):
+    print(graph)
     #helper function that creates new nodes surounding the current node and calculating a g cost that A* needs to function.    
     def get_neighbors(current):
         neighbors = []
@@ -232,3 +234,4 @@ def a_star(graph,dungeonMap):
 
         for node in path:
             dungeonMap[(node.x,node.y)] = 2
+
