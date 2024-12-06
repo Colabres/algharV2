@@ -18,7 +18,7 @@ pip install -r requirements.txt
 Sovelluksen voi tämän jälkeen käynnistää komennolla
 
 ```bash
-python -m main_v2
+python -m main
 ```	
 
 ## Testit
