@@ -68,7 +68,6 @@ def initialize_dungeon(width,height,room_count,min_room_size,max_room_size,extra
     triangles, points = bowyer_watson(dungeon.rooms)
     triangulate(triangles)
     graph = mst(points)
-    #print(f"mst graph {graph}")
     a_star(graph,dungeon.map)
     return dungeon.map, graph
 

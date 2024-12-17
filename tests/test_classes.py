@@ -67,7 +67,7 @@ def test_point_add_neighbor():
     assert point1.neighbors[0][0] == point2  # Check the neighbor
     assert point1.neighbors[0][1] == 4  # The weight is |1-3| + |2-4| = 4
 
-    # Test adding the same neighbor again (should not add)
+    # Test adding the same neighbor again 
     point1.addNeighbor(point2)
     assert len(point1.neighbors) == 1  # No duplicate
 

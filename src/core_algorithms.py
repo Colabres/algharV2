@@ -175,7 +175,7 @@ def mst(points):
 
 # A* algorithm is a path finder that i use to draw the actual coridors in the most efficient way connecting predeterment rooms.
 def a_star(graph,dungeonMap):
-    print(graph)
+    #print(graph)
     #helper function that creates new nodes surounding the current node and calculating a g cost that A* needs to function.    
     def get_neighbors(current):
         neighbors = []
